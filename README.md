@@ -2,8 +2,6 @@
 
 **Dar al-Ilm** (House of Knowledge) is a modern, academic Library Management System built with Jakarta EE 10 and JSF. It provides a comprehensive solution for managing books, members, and loans in an academic or public library setting.
 
-![Dashboard Preview](src/main/webapp/resources/images/dashboard-preview.png)
-*(Note: Replace with actual screenshot path if available)*
 
 ## Features
 
