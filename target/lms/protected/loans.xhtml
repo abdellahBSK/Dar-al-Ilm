@@ -1,0 +1,48 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Manage Loans</ui:define>
+
+    <ui:define name="content">
+        <h2>Active Loans</h2>
+        
+        <h:form>
+            <h:button value="New Loan" outcome="new-loan" styleClass="btn" style="margin-bottom: 20px;" />
+            
+            <h:dataTable value="#{loanBean.activeLoans}" var="l" styleClass="table">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{l.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Member</f:facet>
+                    #{l.member.fullName}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Book</f:facet>
+                    #{l.book.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Loan Date</f:facet>
+                    <h:outputText value="#{l.loanDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Due Date</f:facet>
+                    <h:outputText value="#{l.returnDate}">
+                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    </h:outputText>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Actions</f:facet>
+                    <h:commandButton value="Return Book" action="#{loanBean.returnBook(l)}" styleClass="btn" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

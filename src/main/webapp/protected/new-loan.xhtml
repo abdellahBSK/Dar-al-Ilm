@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">New Loan</ui:define>
+
+    <ui:define name="content">
+        <h2>Process New Loan</h2>
+        #{loanBean.prepareCreate()}
+        
+        <h:form>
+            <h:messages globalOnly="true" styleClass="error" />
+            
+            <div class="form-group">
+                <h:outputLabel value="Select Member" />
+                <h:selectOneMenu value="#{loanBean.selectedMemberId}" required="true" requiredMessage="Member is required" style="width: 100%; padding: 8px;">
+                    <f:selectItem itemLabel="Select Member..." itemValue="" />
+                    <f:selectItems value="#{loanBean.availableMembers}" var="m" itemLabel="#{m.fullName} (#{m.email})" itemValue="#{m.id}" />
+                </h:selectOneMenu>
+            </div>
+            
+            <div class="form-group" style="margin-top: 15px;">
+                <h:outputLabel value="Select Book" />
+                <h:selectOneMenu value="#{loanBean.selectedBookId}" required="true" requiredMessage="Book is required" style="width: 100%; padding: 8px;">
+                     <f:selectItem itemLabel="Select Book..." itemValue="" />
+                     <f:selectItems value="#{loanBean.availableBooks}" var="b" itemLabel="#{b.title} (Available: #{b.quantity})" itemValue="#{b.id}" />
+                </h:selectOneMenu>
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h:commandButton value="Confirm Loan" action="#{loanBean.createLoan}" styleClass="btn" />
+                <h:button value="Cancel" outcome="loans" styleClass="btn" style="background: #6c757d; margin-left: 10px;" />
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

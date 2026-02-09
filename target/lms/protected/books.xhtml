@@ -1,0 +1,45 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">Manage Books</ui:define>
+
+    <ui:define name="content">
+        <h2>Book Management</h2>
+        
+        <h:form>
+            <h:commandButton value="Add New Book" action="#{bookBean.prepareCreate}" styleClass="btn" style="margin-bottom: 20px;" />
+            
+            <h:dataTable value="#{bookBean.books}" var="b" styleClass="table">
+                <h:column>
+                    <f:facet name="header">ID</f:facet>
+                    #{b.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Title</f:facet>
+                    #{b.title}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Author</f:facet>
+                    #{b.author}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">ISBN</f:facet>
+                    #{b.isbn}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Quantity</f:facet>
+                    #{b.quantity}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Actions</f:facet>
+                    <h:commandButton value="Edit" action="#{bookBean.prepareEdit(b)}" styleClass="btn" style="margin-right: 5px;" />
+                    <h:commandButton value="Delete" action="#{bookBean.delete(b)}" styleClass="btn btn-danger" onclick="return confirm('Are you sure?');" />
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

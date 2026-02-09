@@ -1,0 +1,40 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/template.xhtml">
+
+    <ui:define name="title">#{memberBean.member.id == null ? 'Add Member' : 'Edit Member'}</ui:define>
+
+    <ui:define name="content">
+        <h2>#{memberBean.member.id == null ? 'Add Member' : 'Edit Member'}</h2>
+        
+        <h:form>
+            <div class="form-group">
+                <h:outputLabel value="First Name" />
+                <h:inputText value="#{memberBean.member.firstName}" required="true" requiredMessage="First Name is required" style="width: 100%;" />
+            </div>
+            
+            <div class="form-group">
+                <h:outputLabel value="Last Name" />
+                <h:inputText value="#{memberBean.member.lastName}" required="true" requiredMessage="Last Name is required" style="width: 100%;" />
+            </div>
+
+            <div class="form-group">
+                <h:outputLabel value="Email" />
+                <h:inputText value="#{memberBean.member.email}" required="true" requiredMessage="Email is required" style="width: 100%;" />
+            </div>
+            
+            <div class="form-group">
+                <h:outputLabel value="Address" />
+                <h:inputTextarea value="#{memberBean.member.address}" style="width: 100%;" />
+            </div>
+
+            <div style="margin-top: 20px;">
+                <h:commandButton value="Save" action="#{memberBean.save}" styleClass="btn" />
+                <h:button value="Cancel" outcome="members" styleClass="btn" style="background: #6c757d; margin-left: 10px;" />
+            </div>
+        </h:form>
+    </ui:define>
+
+</ui:composition>

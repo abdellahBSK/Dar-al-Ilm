@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:f="jakarta.faces.core"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <title><ui:insert name="title">Library Manager</ui:insert></title>
+    <h:outputStylesheet name="css/style.css" library="default" rendered="false"/> 
+    <!-- Using inline styles for simplicity as per requirement focus on logic, but a style.css would be better. 
+         I will stick to basic styling here. -->
+    <style>
+        body { font-family: sans-serif; margin: 0; padding: 0; background: #f4f4f4; }
+        header { background: #333; color: #fff; padding: 1rem; display: flex; justify-content: space-between; align-items: center; }
+        header a { color: #fff; text-decoration: none; margin-left: 15px; }
+        nav { background: #444; color: #fff; padding: 0.5rem; }
+        nav a { color: #fff; text-decoration: none; margin-right: 15px; }
+        .container { padding: 20px; background: #fff; max-width: 1000px; margin: 20px auto; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+        .footer { text-align: center; padding: 10px; margin-top: 20px; color: #777; font-size: 0.9em; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
+        th { background-color: #f2f2f2; }
+        .btn { padding: 5px 10px; background: #007bff; color: white; border: none; cursor: pointer; text-decoration: none; }
+        .btn-danger { background: #dc3545; }
+        .btn:hover { opacity: 0.8; }
+        .error { color: red; }
+    </style>
+</h:head>
+<h:body>
+    <header>
+        <h1>Library Management</h1>
+        <h:form rendered="#{authBean.loggedIn}">
+            <span>Welcome, #{authBean.username}</span>
+            <h:commandLink value="Logout" action="#{authBean.logout}" style="margin-left: 10px; color: #faa;" />
+        </h:form>
+    </header>
+    
+    <nav rendered="#{authBean.loggedIn}">
+        <h:link value="Books" outcome="/protected/books" />
+        <h:link value="Members" outcome="/protected/members" />
+        <h:link value="Loans" outcome="/protected/loans" />
+    </nav>
+
+    <div class="container">
+        <ui:insert name="content">Default Content</ui:insert>
+    </div>
+
+    <div class="footer">
+        FSTT Library Management System - Mini Project Jakarta EE
+    </div>
+</h:body>
+</html>
