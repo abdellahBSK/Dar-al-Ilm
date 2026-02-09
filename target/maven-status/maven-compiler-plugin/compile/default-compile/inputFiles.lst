@@ -5,6 +5,7 @@
 /home/spoon/dev/projects/ink/src/main/java/com/fstt/lms/web/BookBean.java
 /home/spoon/dev/projects/ink/src/main/java/com/fstt/lms/web/AuthBean.java
 /home/spoon/dev/projects/ink/src/main/java/com/fstt/lms/web/MemberBean.java
+/home/spoon/dev/projects/ink/src/main/java/com/fstt/lms/web/DashboardBean.java
 /home/spoon/dev/projects/ink/src/main/java/com/fstt/lms/web/filter/AuthFilter.java
 /home/spoon/dev/projects/ink/src/main/java/com/fstt/lms/model/Book.java
 /home/spoon/dev/projects/ink/src/main/java/com/fstt/lms/web/LoanBean.java

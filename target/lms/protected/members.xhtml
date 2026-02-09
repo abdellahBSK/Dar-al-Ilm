@@ -2,44 +2,46 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets"
-                template="/WEB-INF/template.xhtml">
-
-    <ui:define name="title">Manage Members</ui:define>
+                template="/WEB-INF/templates/layout.xhtml">
 
     <ui:define name="content">
-        <h2>Member Management</h2>
-        
-        <h:form>
-            <h:commandButton value="Add New Member" action="#{memberBean.prepareCreate}" styleClass="btn" style="margin-bottom: 20px;" />
-            
-            <h:dataTable value="#{memberBean.members}" var="m" styleClass="table">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>Members Management</h2>
+            <h:button value="Add New Member" outcome="member-form" styleClass="btn btn-primary"/>
+        </div>
+
+        <div class="card">
+            <h:dataTable value="#{memberBean.members}" var="member" styleClass="table" style="box-shadow: none; margin-top: 0;">
                 <h:column>
                     <f:facet name="header">ID</f:facet>
-                    #{m.id}
+                    #{member.id}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">First Name</f:facet>
-                    #{m.firstName}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Last Name</f:facet>
-                    #{m.lastName}
+                    <f:facet name="header">Name</f:facet>
+                    <strong>#{member.fullName}</strong>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Email</f:facet>
-                    #{m.email}
+                    #{member.email}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Address</f:facet>
-                    #{m.address}
+                    #{member.address}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Actions</f:facet>
-                    <h:commandButton value="Edit" action="#{memberBean.prepareEdit(m)}" styleClass="btn" style="margin-right: 5px;" />
-                    <h:commandButton value="Delete" action="#{memberBean.delete(m)}" styleClass="btn btn-danger" onclick="return confirm('Are you sure?');" />
+                    <h:form style="display:inline;">
+                        <h:commandLink action="#{memberBean.prepareEdit(member)}" styleClass="btn btn-secondary" style="margin-right: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
+                            Edit
+                        </h:commandLink>
+                        <h:commandButton value="Delete" action="#{memberBean.delete(member)}" 
+                                         styleClass="btn btn-danger"
+                                         style="padding: 0.25rem 0.75rem; font-size: 0.85rem;"
+                                         onclick="return confirm('Are you sure?')"/>
+                    </h:form>
                 </h:column>
             </h:dataTable>
-        </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

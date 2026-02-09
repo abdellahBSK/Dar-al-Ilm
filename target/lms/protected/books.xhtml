@@ -2,44 +2,77 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets"
-                template="/WEB-INF/template.xhtml">
-
-    <ui:define name="title">Manage Books</ui:define>
+                template="/WEB-INF/templates/layout.xhtml">
 
     <ui:define name="content">
-        <h2>Book Management</h2>
-        
-        <h:form>
-            <h:commandButton value="Add New Book" action="#{bookBean.prepareCreate}" styleClass="btn" style="margin-bottom: 20px;" />
-            
-            <h:dataTable value="#{bookBean.books}" var="b" styleClass="table">
+        <f:metadata>
+             <f:viewParam name="q" value="#{bookBean.searchQuery}" />
+             <f:viewAction action="#{bookBean.search}" />
+        </f:metadata>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Library Catalog</h2>
+            <h:button value="+ Add New Book" outcome="book-form" styleClass="btn btn-primary"/>
+        </div>
+
+        <!-- Search Bar -->
+        <h:form style="margin-bottom: 2rem;">
+            <div class="search-container">
+                <h:inputText value="#{bookBean.searchQuery}" styleClass="search-input" 
+                             p:placeholder="Search by title, author, or ISBN..."
+                             xmlns:p="jakarta.faces.passthrough"/>
+                <h:commandButton value="Search" action="#{bookBean.search}" styleClass="btn btn-primary"/>
+                <h:commandButton value="Clear" action="#{bookBean.init}" styleClass="btn btn-secondary" 
+                                 rendered="#{not empty bookBean.searchQuery}"
+                                 onclick="document.querySelector('.search-input').value=''"/>
+            </div>
+        </h:form>
+
+        <div class="card">
+            <h:dataTable value="#{bookBean.books}" var="book" styleClass="table" style="box-shadow: none; margin-top: 0;">
                 <h:column>
                     <f:facet name="header">ID</f:facet>
-                    #{b.id}
+                    #{book.id}
                 </h:column>
                 <h:column>
                     <f:facet name="header">Title</f:facet>
-                    #{b.title}
+                    <strong>#{book.title}</strong>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Author</f:facet>
-                    #{b.author}
+                    #{book.author}
                 </h:column>
                 <h:column>
                     <f:facet name="header">ISBN</f:facet>
-                    #{b.isbn}
+                    <span style="font-family: monospace; color: var(--text-muted);">#{book.isbn}</span>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Quantity</f:facet>
-                    #{b.quantity}
+                    <f:facet name="header">Status</f:facet>
+                    <ui:fragment rendered="#{book.quantity > 0}">
+                        <span class="badge badge-success">Available (#{book.quantity})</span>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{book.quantity == 0}">
+                        <span class="badge badge-danger">Out of Stock</span>
+                    </ui:fragment>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Actions</f:facet>
-                    <h:commandButton value="Edit" action="#{bookBean.prepareEdit(b)}" styleClass="btn" style="margin-right: 5px;" />
-                    <h:commandButton value="Delete" action="#{bookBean.delete(b)}" styleClass="btn btn-danger" onclick="return confirm('Are you sure?');" />
+                    <h:form style="display:inline;">
+                        <h:commandLink action="#{bookBean.prepareEdit(book)}" styleClass="btn btn-secondary" style="margin-right: 0.5rem; padding: 0.25rem 0.75rem; font-size: 0.85rem; text-decoration: none;">
+                            Edit
+                        </h:commandLink>
+                        <h:commandButton value="Delete" action="#{bookBean.delete(book)}" 
+                                         styleClass="btn btn-danger" 
+                                         style="padding: 0.25rem 0.75rem; font-size: 0.85rem;"
+                                         onclick="return confirm('Are you sure you want to remove this book from the catalog?')"/>
+                    </h:form>
                 </h:column>
             </h:dataTable>
-        </h:form>
+            
+            <h:panelGroup rendered="#{empty bookBean.books}" style="display: block; text-align: center; padding: 2rem; color: var(--text-muted);">
+                No books found matching your criteria.
+            </h:panelGroup>
+        </div>
     </ui:define>
 
 </ui:composition>

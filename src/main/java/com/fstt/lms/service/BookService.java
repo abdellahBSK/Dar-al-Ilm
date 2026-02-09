@@ -34,4 +34,28 @@ public class BookService {
     public List<Book> findAll() {
         return em.createQuery("SELECT b FROM Book b", Book.class).getResultList();
     }
+
+    public long count() {
+        return em.createQuery("SELECT COUNT(b) FROM Book b", Long.class).getSingleResult();
+    }
+
+    public List<Book> search(String query) {
+        return em.createQuery(
+                "SELECT b FROM Book b WHERE LOWER(b.title) LIKE :query OR LOWER(b.author) LIKE :query OR LOWER(b.isbn) LIKE :query",
+                Book.class)
+                .setParameter("query", "%" + query.toLowerCase() + "%")
+                .getResultList();
+    }
+
+    public List<Book> findRecent(int limit) {
+        return em.createQuery("SELECT b FROM Book b ORDER BY b.id DESC", Book.class)
+                .setMaxResults(limit)
+                .getResultList();
+    }
+
+    public List<Book> findLowStock(int limit) {
+        return em.createQuery("SELECT b FROM Book b WHERE b.quantity < 5 ORDER BY b.quantity ASC", Book.class)
+                .setMaxResults(limit)
+                .getResultList();
+    }
 }

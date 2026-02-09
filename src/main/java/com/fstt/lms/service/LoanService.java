@@ -62,4 +62,8 @@ public class LoanService {
     public List<Loan> findAll() {
         return em.createQuery("SELECT l FROM Loan l", Loan.class).getResultList();
     }
+
+    public long countActive() {
+        return em.createQuery("SELECT COUNT(l) FROM Loan l WHERE l.returned = false", Long.class).getSingleResult();
+    }
 }

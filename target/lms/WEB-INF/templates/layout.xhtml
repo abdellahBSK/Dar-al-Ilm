@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="jakarta.faces.html"
+      xmlns:ui="jakarta.faces.facelets">
+<h:head>
+    <title><ui:insert name="title">Dar al-Ilm Library</ui:insert></title>
+    <h:outputStylesheet library="css" name="style.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&amp;family=Merriweather:wght@300;400;700&amp;family=Roboto:wght@300;400;500&amp;display=swap" rel="stylesheet"/>
+</h:head>
+<h:body>
+    <header>
+        <div class="brand">
+            <span class="brand-en">dar al-ilm</span>
+            <span class="brand-ar">دار العلم</span>
+        </div>
+        <nav>
+            <ul>
+                <li><h:link value="Dashboard" outcome="/protected/dashboard"/></li>
+                <li><h:link value="Books" outcome="/protected/books"/></li>
+                <li><h:link value="Members" outcome="/protected/members"/></li>
+                <li><h:link value="Loans" outcome="/protected/loans"/></li>
+                <li>
+                    <h:form style="display:inline;">
+                        <h:commandLink value="Logout" action="#{authBean.logout}"/>
+                    </h:form>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <h:messages globalOnly="true" styleClass="messages" infoClass="info" errorClass="error" warnClass="warn" />
+        <ui:insert name="content">
+            <!-- Page Content -->
+        </ui:insert>
+    </main>
+
+    <footer>
+        <p>&amp;copy; 2026 Dar al-Ilm Library Management System. All rights reserved.</p>
+    </footer>
+</h:body>
+</html>

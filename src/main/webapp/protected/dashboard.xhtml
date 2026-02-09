@@ -1,0 +1,70 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="jakarta.faces.html"
+                xmlns:f="jakarta.faces.core"
+                xmlns:ui="jakarta.faces.facelets"
+                template="/WEB-INF/templates/layout.xhtml">
+
+    <ui:define name="content">
+        <div style="text-align: center; margin-bottom: 3rem;">
+            <h2>Welcome to Dar al-Ilm</h2>
+            <p style="color: var(--text-muted);">Your gateway to knowledge and academic resources.</p>
+            
+            <!-- Global Search -->
+            <form action="books.xhtml" method="get" class="search-container" style="margin: 2rem auto;">
+                <input type="text" name="q" placeholder="Search by title, author, or ISBN..." class="search-input"/>
+                <button type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
+    
+        <div class="dashboard-grid">
+            <div class="card metric-card">
+                <h3>Books in Collection</h3>
+                <div class="metric-value">#{dashboardBean.totalBooks}</div>
+            </div>
+            <div class="card metric-card">
+                <h3>Registered Members</h3>
+                <div class="metric-value">#{dashboardBean.totalMembers}</div>
+            </div>
+            <div class="card metric-card">
+                <h3>Active Loans</h3>
+                <div class="metric-value">#{dashboardBean.activeLoans}</div>
+            </div>
+        </div>
+
+        <div class="section-grid">
+            <!-- Recently Added -->
+            <div class="card">
+                <h3>Recently Added Books</h3>
+                <h:dataTable value="#{dashboardBean.recentBooks}" var="book" styleClass="table" style="margin-top: 0; box-shadow: none;">
+                    <h:column>
+                        <f:facet name="header">Title</f:facet>
+                        #{book.title}
+                    </h:column>
+                    <h:column>
+                        <f:facet name="header">Author</f:facet>
+                        #{book.author}
+                    </h:column>
+                </h:dataTable>
+                <div style="margin-top: 1rem; text-align: right;">
+                    <h:link value="View All Books →" outcome="books" styleClass="btn btn-secondary"/>
+                </div>
+            </div>
+
+            <!-- Low Availability -->
+            <div class="card">
+                <h3>Low Availability</h3>
+                <h:dataTable value="#{dashboardBean.lowStockBooks}" var="book" styleClass="table" style="margin-top: 0; box-shadow: none;">
+                    <h:column>
+                        <f:facet name="header">Title</f:facet>
+                        #{book.title}
+                    </h:column>
+                     <h:column>
+                        <f:facet name="header">Qty</f:facet>
+                        <span class="badge badge-warning">#{book.quantity} left</span>
+                    </h:column>
+                </h:dataTable>
+            </div>
+        </div>
+    </ui:define>
+
+</ui:composition>

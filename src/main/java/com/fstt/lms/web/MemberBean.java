@@ -19,9 +19,17 @@ public class MemberBean implements Serializable {
     private List<Member> members;
     private Member member = new Member();
 
+    private Long id; // For view param
+
     @PostConstruct
     public void init() {
         members = memberService.findAll();
+    }
+
+    public void loadMember() {
+        if (id != null) {
+            this.member = memberService.find(id);
+        }
     }
 
     public List<Member> getMembers() {
@@ -39,8 +47,7 @@ public class MemberBean implements Serializable {
     }
 
     public String prepareEdit(Member member) {
-        this.member = member;
-        return "member-form?faces-redirect=true";
+        return "member-form?faces-redirect=true&id=" + member.getId();
     }
 
     public String save() {
@@ -58,5 +65,13 @@ public class MemberBean implements Serializable {
 
     public void setMember(Member member) {
         this.member = member;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

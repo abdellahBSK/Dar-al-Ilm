@@ -2,38 +2,41 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets"
-                template="/WEB-INF/template.xhtml">
-
-    <ui:define name="title">New Loan</ui:define>
+                template="/WEB-INF/templates/layout.xhtml">
 
     <ui:define name="content">
-        <h2>Process New Loan</h2>
-        #{loanBean.prepareCreate()}
-        
-        <h:form>
-            <h:messages globalOnly="true" styleClass="error" />
+        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <h2>Process New Loan</h2>
+            <!-- Check if prepareCreate method is available or just rely on bean init -->
+            <f:metadata>
+                <f:viewAction action="#{loanBean.prepareCreate}" />
+            </f:metadata>
             
-            <div class="form-group">
-                <h:outputLabel value="Select Member" />
-                <h:selectOneMenu value="#{loanBean.selectedMemberId}" required="true" requiredMessage="Member is required" style="width: 100%; padding: 8px;">
-                    <f:selectItem itemLabel="Select Member..." itemValue="" />
-                    <f:selectItems value="#{loanBean.availableMembers}" var="m" itemLabel="#{m.fullName} (#{m.email})" itemValue="#{m.id}" />
-                </h:selectOneMenu>
-            </div>
-            
-            <div class="form-group" style="margin-top: 15px;">
-                <h:outputLabel value="Select Book" />
-                <h:selectOneMenu value="#{loanBean.selectedBookId}" required="true" requiredMessage="Book is required" style="width: 100%; padding: 8px;">
-                     <f:selectItem itemLabel="Select Book..." itemValue="" />
-                     <f:selectItems value="#{loanBean.availableBooks}" var="b" itemLabel="#{b.title} (Available: #{b.quantity})" itemValue="#{b.id}" />
-                </h:selectOneMenu>
-            </div>
+            <h:form>
+                <h:messages globalOnly="true" style="color: red; list-style: none; margin-bottom: 1rem;" />
+                
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Select Member" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:selectOneMenu value="#{loanBean.selectedMemberId}" required="true" requiredMessage="Member is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;">
+                        <f:selectItem itemLabel="Select Member..." itemValue="" />
+                        <f:selectItems value="#{loanBean.availableMembers}" var="m" itemLabel="#{m.fullName} (#{m.email})" itemValue="#{m.id}" />
+                    </h:selectOneMenu>
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Select Book" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:selectOneMenu value="#{loanBean.selectedBookId}" required="true" requiredMessage="Book is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;">
+                         <f:selectItem itemLabel="Select Book..." itemValue="" />
+                         <f:selectItems value="#{loanBean.availableBooks}" var="b" itemLabel="#{b.title} (Available: #{b.quantity})" itemValue="#{b.id}" />
+                    </h:selectOneMenu>
+                </div>
 
-            <div style="margin-top: 20px;">
-                <h:commandButton value="Confirm Loan" action="#{loanBean.createLoan}" styleClass="btn" />
-                <h:button value="Cancel" outcome="loans" styleClass="btn" style="background: #6c757d; margin-left: 10px;" />
-            </div>
-        </h:form>
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <h:commandButton value="Confirm Loan" action="#{loanBean.createLoan}" styleClass="btn btn-primary" />
+                    <h:button value="Cancel" outcome="loans" styleClass="btn" style="background: #9e9e9e; color: white;" />
+                </div>
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

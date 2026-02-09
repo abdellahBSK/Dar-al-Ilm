@@ -28,7 +28,7 @@ public class LoanBean implements Serializable {
     @Inject
     private MemberService memberService;
 
-    private List<Loan> activeLoans;
+    private List<Loan> loans;
 
     private Long selectedMemberId;
     private Long selectedBookId;
@@ -42,7 +42,7 @@ public class LoanBean implements Serializable {
     }
 
     public void refreshLoans() {
-        activeLoans = loanService.findAllActive();
+        loans = loanService.findAll();
     }
 
     public void prepareCreate() {
@@ -79,8 +79,8 @@ public class LoanBean implements Serializable {
         refreshLoans();
     }
 
-    public List<Loan> getActiveLoans() {
-        return activeLoans;
+    public List<Loan> getLoans() {
+        return loans;
     }
 
     public Long getSelectedMemberId() {
