@@ -2,41 +2,47 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets"
-                template="/WEB-INF/template.xhtml">
-
-    <ui:define name="title">#{bookBean.book.id == null ? 'Add Book' : 'Edit Book'}</ui:define>
+                template="/WEB-INF/templates/layout.xhtml">
 
     <ui:define name="content">
-        <h2>#{bookBean.book.id == null ? 'Add Book' : 'Edit Book'}</h2>
-        
-        <h:form>
-            <div class="form-group">
-                <h:outputLabel value="Title" />
-                <h:inputText value="#{bookBean.book.title}" required="true" requiredMessage="Title is required" style="width: 100%;" />
-            </div>
-            
-            <div class="form-group">
-                <h:outputLabel value="Author" />
-                <h:inputText value="#{bookBean.book.author}" required="true" requiredMessage="Author is required" style="width: 100%;" />
-            </div>
+        <f:metadata>
+            <f:viewParam name="id" value="#{bookBean.id}" />
+            <f:viewAction action="#{bookBean.loadBook}" />
+        </f:metadata>
 
-            <div class="form-group">
-                <h:outputLabel value="ISBN" />
-                <h:inputText value="#{bookBean.book.isbn}" required="true" requiredMessage="ISBN is required" style="width: 100%;" />
-            </div>
+        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <h2>#{bookBean.book.id == null ? 'Add Book' : 'Edit Book'}</h2>
             
-            <div class="form-group">
-                <h:outputLabel value="Quantity" />
-                <h:inputText value="#{bookBean.book.quantity}" required="true" validatorMessage="Quantity must be positive" style="width: 100%;">
-                    <f:validateLongRange minimum="0" />
-                </h:inputText>
-            </div>
+            <h:form>
+                <h:inputHidden value="#{bookBean.book.id}" />
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Title" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputText value="#{bookBean.book.title}" required="true" requiredMessage="Title is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;" />
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Author" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputText value="#{bookBean.book.author}" required="true" requiredMessage="Author is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;" />
+                </div>
 
-            <div style="margin-top: 20px;">
-                <h:commandButton value="Save" action="#{bookBean.save}" styleClass="btn" />
-                <h:button value="Cancel" outcome="books" styleClass="btn" style="background: #6c757d; margin-left: 10px;" />
-            </div>
-        </h:form>
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="ISBN" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputText value="#{bookBean.book.isbn}" required="true" requiredMessage="ISBN is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;" />
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Quantity" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputText value="#{bookBean.book.quantity}" required="true" validatorMessage="Quantity must be positive" style="width: 100%; padding: 0.5rem; box-sizing: border-box;">
+                        <f:validateLongRange minimum="0" />
+                    </h:inputText>
+                </div>
+
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <h:commandButton value="Save" action="#{bookBean.save}" styleClass="btn btn-primary" />
+                    <h:button value="Cancel" outcome="books" styleClass="btn" style="background: #9e9e9e; color: white;" />
+                </div>
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

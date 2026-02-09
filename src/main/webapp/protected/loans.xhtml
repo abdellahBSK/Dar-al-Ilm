@@ -2,47 +2,55 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets"
-                template="/WEB-INF/template.xhtml">
-
-    <ui:define name="title">Manage Loans</ui:define>
+                template="/WEB-INF/templates/layout.xhtml">
 
     <ui:define name="content">
-        <h2>Active Loans</h2>
-        
-        <h:form>
-            <h:button value="New Loan" outcome="new-loan" styleClass="btn" style="margin-bottom: 20px;" />
-            
-            <h:dataTable value="#{loanBean.activeLoans}" var="l" styleClass="table">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <h2>Active Loans</h2>
+            <h:button value="New Loan" outcome="new-loan" styleClass="btn btn-primary"/>
+        </div>
+
+        <div class="card">
+            <h:dataTable value="#{loanBean.loans}" var="loan" styleClass="table" style="box-shadow: none; margin-top: 0;">
                 <h:column>
-                    <f:facet name="header">ID</f:facet>
-                    #{l.id}
+                    <f:facet name="header">Loan ID</f:facet>
+                    #{loan.id}
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Book Title</f:facet>
+                    <strong>#{loan.book.title}</strong>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Member</f:facet>
-                    #{l.member.fullName}
+                    #{loan.member.fullName}
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Book</f:facet>
-                    #{l.book.title}
-                </h:column>
-                <h:column>
-                    <f:facet name="header">Loan Date</f:facet>
-                    <h:outputText value="#{l.loanDate}">
-                        <f:convertDateTime pattern="yyyy-MM-dd" />
+                    <f:facet name="header">Date</f:facet>
+                    <h:outputText value="#{loan.loanDate}">
+                        <f:convertDateTime pattern="dd/MM/yyyy"/>
                     </h:outputText>
                 </h:column>
                 <h:column>
-                    <f:facet name="header">Due Date</f:facet>
-                    <h:outputText value="#{l.returnDate}">
-                        <f:convertDateTime pattern="yyyy-MM-dd" />
-                    </h:outputText>
+                    <f:facet name="header">Status</f:facet>
+                    <ui:fragment rendered="#{not loan.returned}">
+                        <span class="badge badge-warning">Active</span>
+                    </ui:fragment>
+                    <ui:fragment rendered="#{loan.returned}">
+                        <span class="badge badge-success">Returned</span>
+                    </ui:fragment>
                 </h:column>
                 <h:column>
                     <f:facet name="header">Actions</f:facet>
-                    <h:commandButton value="Return Book" action="#{loanBean.returnBook(l)}" styleClass="btn" />
+                     <h:form style="display:inline;">
+                        <h:commandButton value="Return" action="#{loanBean.returnBook(loan)}" 
+                                         rendered="#{not loan.returned}"
+                                         styleClass="btn btn-primary" 
+                                         style="padding: 0.25rem 0.75rem; font-size: 0.85rem;"
+                                         onclick="return confirm('Confirm return?')"/>
+                    </h:form>
                 </h:column>
             </h:dataTable>
-        </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>

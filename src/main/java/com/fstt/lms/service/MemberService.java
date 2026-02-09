@@ -34,4 +34,8 @@ public class MemberService {
     public List<Member> findAll() {
         return em.createQuery("SELECT m FROM Member m", Member.class).getResultList();
     }
+
+    public long count() {
+        return em.createQuery("SELECT COUNT(m) FROM Member m", Long.class).getSingleResult();
+    }
 }

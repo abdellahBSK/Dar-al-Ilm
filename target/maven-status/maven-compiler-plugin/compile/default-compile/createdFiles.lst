@@ -1,5 +1,6 @@
 com/fstt/lms/service/MemberService.class
 com/fstt/lms/web/AuthBean.class
+com/fstt/lms/web/DashboardBean.class
 com/fstt/lms/web/LoanBean.class
 com/fstt/lms/model/Loan.class
 com/fstt/lms/service/LoanService.class

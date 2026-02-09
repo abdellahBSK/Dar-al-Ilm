@@ -2,39 +2,45 @@
                 xmlns:h="jakarta.faces.html"
                 xmlns:f="jakarta.faces.core"
                 xmlns:ui="jakarta.faces.facelets"
-                template="/WEB-INF/template.xhtml">
-
-    <ui:define name="title">#{memberBean.member.id == null ? 'Add Member' : 'Edit Member'}</ui:define>
+                template="/WEB-INF/templates/layout.xhtml">
 
     <ui:define name="content">
-        <h2>#{memberBean.member.id == null ? 'Add Member' : 'Edit Member'}</h2>
-        
-        <h:form>
-            <div class="form-group">
-                <h:outputLabel value="First Name" />
-                <h:inputText value="#{memberBean.member.firstName}" required="true" requiredMessage="First Name is required" style="width: 100%;" />
-            </div>
-            
-            <div class="form-group">
-                <h:outputLabel value="Last Name" />
-                <h:inputText value="#{memberBean.member.lastName}" required="true" requiredMessage="Last Name is required" style="width: 100%;" />
-            </div>
+        <f:metadata>
+            <f:viewParam name="id" value="#{memberBean.id}" />
+            <f:viewAction action="#{memberBean.loadMember}" />
+        </f:metadata>
 
-            <div class="form-group">
-                <h:outputLabel value="Email" />
-                <h:inputText value="#{memberBean.member.email}" required="true" requiredMessage="Email is required" style="width: 100%;" />
-            </div>
+        <div style="max-width: 600px; margin: 0 auto; background: white; padding: 2rem; border-radius: var(--radius); box-shadow: var(--shadow);">
+            <h2>#{memberBean.member.id == null ? 'Add Member' : 'Edit Member'}</h2>
             
-            <div class="form-group">
-                <h:outputLabel value="Address" />
-                <h:inputTextarea value="#{memberBean.member.address}" style="width: 100%;" />
-            </div>
+            <h:form>
+                <h:inputHidden value="#{memberBean.member.id}" />
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="First Name" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputText value="#{memberBean.member.firstName}" required="true" requiredMessage="First Name is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;" />
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Last Name" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputText value="#{memberBean.member.lastName}" required="true" requiredMessage="Last Name is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;" />
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Email" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputText value="#{memberBean.member.email}" required="true" requiredMessage="Email is required" style="width: 100%; padding: 0.5rem; box-sizing: border-box;" />
+                </div>
+                
+                <div style="margin-bottom: 1rem;">
+                    <h:outputLabel value="Address" style="display: block; margin-bottom: 0.5rem;"/>
+                    <h:inputTextarea value="#{memberBean.member.address}" style="width: 100%; padding: 0.5rem; box-sizing: border-box;" />
+                </div>
 
-            <div style="margin-top: 20px;">
-                <h:commandButton value="Save" action="#{memberBean.save}" styleClass="btn" />
-                <h:button value="Cancel" outcome="members" styleClass="btn" style="background: #6c757d; margin-left: 10px;" />
-            </div>
-        </h:form>
+                <div style="margin-top: 1.5rem; display: flex; gap: 1rem;">
+                    <h:commandButton value="Save" action="#{memberBean.save}" styleClass="btn btn-primary" />
+                    <h:button value="Cancel" outcome="members" styleClass="btn" style="background: #9e9e9e; color: white;" />
+                </div>
+            </h:form>
+        </div>
     </ui:define>
 
 </ui:composition>
