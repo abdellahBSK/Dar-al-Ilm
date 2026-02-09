@@ -68,16 +68,28 @@ public class BookBean implements Serializable {
     }
 
     public String save() {
-        System.out.println("Saving book: " + book);
-        System.out.println("Book ID: " + book.getId());
-        if (book.getId() == null) {
-            System.out.println("Creating new book...");
-            bookService.create(book);
-        } else {
-            System.out.println("Updating existing book...");
-            bookService.update(book);
+        try {
+            if (book.getId() == null) {
+                bookService.create(book);
+            } else {
+                bookService.update(book);
+            }
+            return "books?faces-redirect=true";
+        } catch (Exception e) {
+            String errorMessage = "An error occurred while saving the book.";
+            Throwable cause = e.getCause();
+            while (cause != null) {
+                if (cause.getMessage() != null && cause.getMessage().contains("Duplicate entry")) {
+                    errorMessage = "A book with this ISBN already exists.";
+                    break;
+                }
+                cause = cause.getCause();
+            }
+            jakarta.faces.context.FacesContext.getCurrentInstance().addMessage(null,
+                    new jakarta.faces.application.FacesMessage(jakarta.faces.application.FacesMessage.SEVERITY_ERROR,
+                            errorMessage, null));
+            return null; // Stay on the same page
         }
-        return "books?faces-redirect=true";
     }
 
     public Book getBook() {

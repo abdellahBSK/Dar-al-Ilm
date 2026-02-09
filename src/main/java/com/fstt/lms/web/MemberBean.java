@@ -51,12 +51,28 @@ public class MemberBean implements Serializable {
     }
 
     public String save() {
-        if (member.getId() == null) {
-            memberService.create(member);
-        } else {
-            memberService.update(member);
+        try {
+            if (member.getId() == null) {
+                memberService.create(member);
+            } else {
+                memberService.update(member);
+            }
+            return "members?faces-redirect=true";
+        } catch (Exception e) {
+            String errorMessage = "An error occurred while saving the member.";
+            Throwable cause = e.getCause();
+            while (cause != null) {
+                if (cause.getMessage() != null && cause.getMessage().contains("Duplicate entry")) {
+                    errorMessage = "A member with this Email already exists.";
+                    break;
+                }
+                cause = cause.getCause();
+            }
+            jakarta.faces.context.FacesContext.getCurrentInstance().addMessage(null,
+                    new jakarta.faces.application.FacesMessage(jakarta.faces.application.FacesMessage.SEVERITY_ERROR,
+                            errorMessage, null));
+            return null; // Stay on the same page
         }
-        return "members?faces-redirect=true";
     }
 
     public Member getMember() {
