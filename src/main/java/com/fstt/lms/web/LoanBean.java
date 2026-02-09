@@ -69,7 +69,8 @@ public class LoanBean implements Serializable {
             }
         } catch (Exception e) {
             FacesContext.getCurrentInstance().addMessage(null,
-                    new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", e.getMessage()));
+                    new FacesMessage(FacesMessage.SEVERITY_ERROR,
+                            "This book is currently unavailable. All copies are loaned out.", e.getMessage()));
             return null;
         }
     }
